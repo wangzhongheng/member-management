@@ -75,6 +75,40 @@
   </footer>
 
   <script src="./assets/jquery.js"></script>
+  <script>
+    //   改变头像内容
+    $('#input_avatar').change(function(){
 
+        var myFile = this.files[0];
+        var url = URL.createObjectURL(myFile);
+        $('.img-thumbnail').attr('src',url);
+    });
+
+    $('.btn-block').click(function () {
+      // 使用FormData收集表单各项值
+      // 找到表单DOM对象
+      var form = $('form')[0];
+      // 实例化FormData
+      var fd = new FormData(form);
+      console.log(fd);
+      // return;
+      // 发送ajax请求
+      $.ajax({
+        type: 'POST',
+        url: '/api/member-add',
+        data: fd, //{id: 111, age: 222}, //'id=111&age=222',
+        dataType: 'json',
+        success: function (res) {
+          // console.log(res);
+          if (res.message === '数据保存成功') {
+            // 添加成功，应该跳转到index.html
+            location.href = '/index.html';
+          }
+        },
+        contentType: false, // 不让jQuery设置Content-Type.由FormData自己来设置
+        processData: false // 不让jQuery将fd对象转成字符串形式
+      });
+    });
+  </script>
 </body>
 </html>
