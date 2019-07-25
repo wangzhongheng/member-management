@@ -77,8 +77,11 @@
         {{/each}}
  </script>
  
+ <!-- 获取第一页功能 -->
   <script>
-    $.get(
+    
+    
+        $.get(
       '/api/member-list-last',
       {last:null},
       function(result){
@@ -89,6 +92,24 @@
         $('#members').append(str);
       },'json'
     )
+ 
   </script>
+
+<!-- 删除功能 -->
+<script>
+    $('body').on('click','.text-danger',function(){
+        var isDelete = confirm('你确定要删除吗？');
+        if(isDelete){
+            var myId = $(this).attr('data-id')
+        var that = $(this);
+        $.get('/api/member-delete',{id:myId},function(res){
+            // console.log(res);
+            if(res.message === '数据删除成功'){
+                that.parents('.col-lg-4').remove();
+            }
+        },'json')
+        }
+    })
+</script>
 </body>
 </html>
